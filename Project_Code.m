@@ -28,6 +28,21 @@ for k = 1:length(p)
     % form vector x from dataset
     x = djiaw_2019(p(k)+1:N,2)';
     
-end
+    % determine predictor coefficients
+    a = -X\x;
     
+    % determine error with linear predictor coefficients
+    e = x+X*a;
+    
+    % determine total squared predicted error for value of p
+    E(k) = e'*e;
+end
+
+% plot E vs p
+figure(1)
+plot(E,p);
+xlabel('p');
+ylabel('E');
+title('Plot of Total Squared Prediction Error vs p');
+
 
