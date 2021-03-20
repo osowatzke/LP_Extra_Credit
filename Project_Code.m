@@ -39,7 +39,7 @@ for k = 1:length(p)
 end
 
 % plot E vs p
-figure(1)
+figure
 plot(p,E);
 xlabel('p');
 ylabel('E');
@@ -75,14 +75,25 @@ abc = diff.*valid + (~valid).*(8);
 end_index = start_index + 52;
 start_index;
 
-% determine xhat using filter command
+% determine 2018 predicted data using filter command
 % predictor coefficients must be flipped
 xhat = filter(-[0;flip(a)],1,djiaw_total(:,2));
 xhat = xhat(start_index:end_index);
 
+% actual 2018 data
+x = djiaw_total(start_index:end_index,2);
+
+% date range for plotting
+date_range = djiaw_total(start_index:end_index,1);
+
 % plot predicted vs actual values
-figure(2)
-plot(djiaw_total(start_index:end_index,1), xhat, djiaw_total(start_index:end_index,1),...
-    djiaw_total(start_index:end_index,2));
-xlim([djiaw_total(start_index,1), djiaw_total(end_index,1)]);
+figure
+plot(date_range, x, date_range, xhat);
+xlim([date_range(1) date_range(end)]);
 datetick('x',2)
+legend('True Data', 'Predicted Data', 'Location', 'southwest');
+xlabel('Date');
+ylabel('Dow Jones Industrial Average');
+
+
+% deteremine 
