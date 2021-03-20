@@ -95,5 +95,12 @@ legend('True Data', 'Predicted Data', 'Location', 'southwest');
 xlabel('Date');
 ylabel('Dow Jones Industrial Average');
 
+% calculate the squared error of the predicted data
+e = x-xhat;
+E = e'*e;
+
+% output squared error of the predicted data
+fprintf("Part (i): Squared Error of the Predicted Data: %g\n", E);
+
 
 % deteremine 
