@@ -66,13 +66,13 @@ x = djiaw_total(p+1:N,2);
 % determine predictor coefficients
 a = -X\x;
 
-% determine starting and index
+% determine first 2018 index
 [~,start_index] = min(abs(datenum(2018,1,1)-djiaw_total(:,1)));
 if djiaw_total(start_index,1) < datenum(2018,1,1)
     start_index = start_index + 1;
 end
 
-% determine ending index
+% determine last 2018 index
 [~,end_index] = min(abs(datenum(2018,12,31)-djiaw_total(:,1)));
 if djiaw_total(end_index,1) > datenum(2018,12,31)
     end_index = end_index - 1;
@@ -138,13 +138,13 @@ x = djiaw_total(start_index+p:start_index+N-1,2);
 % determine predictor coefficients
 a = -X\x;
 
-% determine starting index
+% determine first 2018 index
 [~,start_index] = min(abs(datenum(2018,1,1)-djiaw_total(:,1)));
 if djiaw_total(start_index,1) < datenum(2018,1,1)
     start_index = start_index + 1;
 end
 
-% determine ending index
+% determine last 2018 index
 [~,end_index] = min(abs(datenum(2018,12,31)-djiaw_total(:,1)));
 if djiaw_total(end_index,1) > datenum(2018,12,31)
     end_index = end_index - 1;
@@ -180,17 +180,19 @@ fprintf("Part (ii): Squared Error of the Predicted Data: %g\n", E);
 
 %% part (iii)
 
-% use 2006 - 2007 data to predict the 2018 data
+% use two linear predictors trained with last 6 months of data
+% to predict the 2018 data
+
 % the p value from part (i) is used
 p = 10;
 
-% determine starting index for 2017 data
+% First week in July 2017
 [~,start_index] = min(abs(datenum(2017,7,1)-djiaw_total(:,1)));
 if djiaw_total(start_index,1) < datenum(2017,7,1)
     start_index = start_index + 1;
 end
 
-% determine ending index for 2017 data
+% Last week in December 2017
 [~,end_index] = min(abs(datenum(2017,12,31)-djiaw_total(:,1)));
 if djiaw_total(end_index,1) > datenum(2017,12,31)
     end_index = end_index - 1;
@@ -215,30 +217,30 @@ x = djiaw_total(start_index+p:start_index+N-1,2);
 % determine predictor coefficients
 a = -X\x;
 
-% determine starting index
+% First week in January 2018
 [~,start_index] = min(abs(datenum(2018,1,1)-djiaw_total(:,1)));
 if djiaw_total(start_index,1) < datenum(2018,1,1)
     start_index = start_index + 1;
 end
 
-% determine ending index
+% Last week in June 2018
 [~,end_index] = min(abs(datenum(2018,6,30)-djiaw_total(:,1)));
 if djiaw_total(end_index,1) > datenum(2018,6,30)
     end_index = end_index - 1;
 end
 
-% determine 2018 predicted data using filter command
+% determine first set of 2018 predicted data using filter command
 % predictor coefficients must be flipped
 xhat1 = filter(-[0;flip(a)],1,djiaw_total(:,2));
 xhat1 = xhat1(start_index:end_index);
 
-% determine starting index for 2018 data
+% First week in January 2018
 [~,start_index] = min(abs(datenum(2018,1,1)-djiaw_total(:,1)));
 if djiaw_total(start_index,1) < datenum(2018,1,1)
     start_index = start_index + 1;
 end
 
-% determine ending index for 2018 data
+% Last week in June 2018
 [~,end_index] = min(abs(datenum(2018,6,30)-djiaw_total(:,1)));
 if djiaw_total(end_index,1) > datenum(2018,6,30)
     end_index = end_index - 1;
@@ -263,19 +265,19 @@ x = djiaw_total(start_index+p:start_index+N-1,2);
 % determine predictor coefficients
 a = -X\x;
 
-% determine starting index
+% First week in July 2018
 [~,start_index] = min(abs(datenum(2018,7,1)-djiaw_total(:,1)));
 if djiaw_total(start_index,1) < datenum(2018,7,1)
     start_index = start_index + 1;
 end
 
-% determine ending index 
+% Last week in December 2018
 [~,end_index] = min(abs(datenum(2018,12,31)-djiaw_total(:,1)));
 if djiaw_total(end_index,1) > datenum(2018,12,31)
     end_index = end_index - 1;
 end
 
-% determine 2018 predicted data using filter command
+% determine second set of 2018 predicted data using filter command
 % predictor coefficients must be flipped
 xhat2 = filter(-[0;flip(a)],1,djiaw_total(:,2));
 xhat2 = xhat2(start_index:end_index);
@@ -283,13 +285,13 @@ xhat2 = xhat2(start_index:end_index);
 % determine total 2018 predicted dataset
 xhat = [xhat1; xhat2];
 
-% determine starting index for all 2018 data
+% First week in January 2018
 [~,start_index] = min(abs(datenum(2018,1,1)-djiaw_total(:,1)));
 if djiaw_total(start_index,1) < datenum(2018,1,1)
     start_index = start_index + 1;
 end
 
-% determine ending index for all 2018 data
+% Last week in December 2018
 [~,end_index] = min(abs(datenum(2018,12,31)-djiaw_total(:,1)));
 if djiaw_total(end_index,1) > datenum(2018,12,31)
     end_index = end_index - 1;
@@ -316,6 +318,8 @@ e = x-xhat;
 E = e'*e;
 
 % output squared error of the predicted data
-fprintf("Part (iii): Squared Error of the Predicted Data when last 6 months\n");
+fprintf("Part (iii): Squared Error of the Predicted Data");
+fprintf("when last 6 months\n");
 fprintf("\tof data is used to train predictor: %g\n", E);
+
 
