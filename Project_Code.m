@@ -318,7 +318,7 @@ e = x-xhat;
 E = e'*e;
 
 % output squared error of the predicted data
-fprintf("Part (iii): Squared Error of the Predicted Data");
+fprintf("Part (iii): Squared Error of the Predicted Data ");
 fprintf("when last 6 months\n");
 fprintf("\tof data is used to train predictor: %g\n", E);
 
