@@ -283,23 +283,12 @@ xhat2 = xhat2(start_index:end_index);
 % determine total 2018 predicted dataset
 xhat = [xhat1; xhat2];
 
-% determine starting index for all 2018 data
-[~,start_index] = min(abs(datenum(2018,1,1)-djiaw_total(:,1)));
-if djiaw_total(start_index,1) < datenum(2018,1,1)
-    start_index = start_index + 1;
-end
-
-% determine ending index for all 2018 data
-[~,end_index] = min(abs(datenum(2018,12,31)-djiaw_total(:,1)));
-if djiaw_total(end_index,1) > datenum(2018,12,31)
-    end_index = end_index - 1;
-end
-
+% deter
 % actual 2018 data
-x = djiaw_total(start_index:end_index,2);
+x = djiaw_total(start_index:length(xhat)+start_index-1,2);
 
 % date range for plotting
-date_range = djiaw_total(start_index:end_index,1);
+date_range = djiaw_total(start_index:length(xhat)+start_index-1,1);
 
 % plot predicted vs actual values
 figure
@@ -309,7 +298,6 @@ datetick('x',2)
 legend('True Data', 'Predicted Data', 'Location', 'southwest');
 xlabel('Date');
 ylabel('Dow Jones Industrial Average');
-title('Plot of Predicted and Actual 2018 Stock Market Data');
 
 % calculate the squared error of the predicted data
 e = x-xhat;
