@@ -234,17 +234,31 @@ end
 xhat1 = filter(-[0;flip(a)],1,djiaw_total(:,2));
 xhat1 = xhat1(start_index:end_index);
 
-% First week in January 2018
-[~,start_index] = min(abs(datenum(2018,1,1)-djiaw_total(:,1)));
-if djiaw_total(start_index,1) < datenum(2018,1,1)
-    start_index = start_index + 1;
-end
+% actual data over first 6 months
+x = djiaw_total(start_index:end_index,2);
 
-% Last week in June 2018
-[~,end_index] = min(abs(datenum(2018,6,30)-djiaw_total(:,1)));
-if djiaw_total(end_index,1) > datenum(2018,6,30)
-    end_index = end_index - 1;
-end
+% date range for plotting
+date_range = djiaw_total(start_index:end_index,1);
+
+% plot predicted vs actual values
+figure
+plot(date_range, x, date_range, xhat1);
+xlim([date_range(1) date_range(end)]);
+datetick('x',2)
+legend('True Data', 'Predicted Data', 'Location', 'southwest');
+xlabel('Date');
+ylabel('Dow Jones Industrial Average');
+title('Plot of Predicted and Actual Stock Market Data from Jan-June 2018');
+
+% calculate the squared error of the predicted data
+e = x-xhat1;
+E = e'*e;
+
+% output squared error of first set predicted data
+fprintf("Part (iii): Squared Error for first 6 months of Predicted Data\n");
+fprintf("\twhen last 6 months of data is used to train predictor: %g\n", E);
+
+% Start and End indices have already been initialized
 
 % number of weeks used to train predictor
 N = end_index-start_index+1;
@@ -281,6 +295,30 @@ end
 % predictor coefficients must be flipped
 xhat2 = filter(-[0;flip(a)],1,djiaw_total(:,2));
 xhat2 = xhat2(start_index:end_index);
+
+% actual data over first 6 months
+x = djiaw_total(start_index:end_index,2);
+
+% date range for plotting
+date_range = djiaw_total(start_index:end_index,1);
+
+% plot predicted vs actual values
+figure
+plot(date_range, x, date_range, xhat2);
+xlim([date_range(1) date_range(end)]);
+datetick('x',2)
+legend('True Data', 'Predicted Data', 'Location', 'southwest');
+xlabel('Date');
+ylabel('Dow Jones Industrial Average');
+title('Plot of Predicted and Actual Stock Market Data from July-Dec 2018');
+
+% calculate the squared error of the predicted data
+e = x-xhat2;
+E = e'*e;
+
+% output squared error of first set predicted data
+fprintf("Part (iii): Squared Error for second 6 months of Predicted Data\n");
+fprintf("\twhen last 6 months of data is used to train predictor: %g\n", E);
 
 % determine total 2018 predicted dataset
 xhat = [xhat1; xhat2];
